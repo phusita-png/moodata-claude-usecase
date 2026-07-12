@@ -2,381 +2,345 @@
 
 <style>
   :root{
-    --violet:#6A3DE8; --violet-2:#8A63F0; --violet-d:#3B2192; --violet-dd:#271563;
-    --violet-l:#F3EEFD; --violet-tint:#EAE1FB; --violet-line:#E3D9F7;
-    --ink:#1D1930; --muted:#6B6484; --faint:#9A93AD;
-    --paper:#FFFFFF; --paper-2:#F8F6FD; --line:#E8E2F5;
-    --amber:#C67E12; --amber-l:#FBEFD6; --amber-line:#F0DDB0;
-    --mint:#0E9E82; --mint-l:#E1F5EF;
-    --maxw:1180px;
+    --ground:#FAF8FE; --surface:#FFFFFF; --surface-2:#F4F0FC; --ink:#1E1930; --ink-soft:#5B5474; --ink-faint:#928BA8;
+    --line:#E8E2F5; --line-strong:#D9CFF0; --brand:#6A3DE8; --brand-2:#8A63F0; --brand-d:#3B2192; --brand-tint:#EFE9FC;
+    --amber:#B8790F; --amber-tint:#FAEFD6; --amber-line:#EEDCAE; --mint:#0E9E82; --danger:#B0402A; --danger-tint:#F7E6E0;
+    --radius:16px; --radius-sm:10px; --maxw:1080px;
     --font:"IBM Plex Sans Thai","Sarabun","Leelawadee UI","Noto Sans Thai",Tahoma,-apple-system,BlinkMacSystemFont,sans-serif;
     --font-mono:"Cascadia Code","Cascadia Mono",ui-monospace,"SF Mono",Consolas,monospace;
   }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html,body{height:100%}
-  body{
-    font-family:var(--font);color:var(--ink);background:var(--violet-dd);
-    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow:hidden;
-    font-size:clamp(15px,1.7vw,19px);line-height:1.6;
+  @media (prefers-color-scheme: dark){
+    :root{
+      --ground:#12101E; --surface:#1B1830; --surface-2:#221E3A; --ink:#ECE7F7; --ink-soft:#B3ACC9; --ink-faint:#807A97;
+      --line:#2C2748; --line-strong:#3B3560; --brand:#9B7BF2; --brand-2:#B29BF6; --brand-d:#C3B2FA; --brand-tint:#211C3A;
+      --amber:#E0B45E; --amber-tint:#251E12; --amber-line:#3d3320; --mint:#57C9AC; --danger:#E58061; --danger-tint:#2a1a15;
+    }
   }
-  ::selection{background:var(--violet);color:#fff}
-
-  /* ---- deck mechanics ---- */
-  .deck{position:fixed;inset:0;overflow:hidden}
-  .track{display:flex;height:100%;transition:transform .5s cubic-bezier(.7,0,.2,1)}
-  .slide{
-    min-width:100%;height:100%;overflow-y:auto;overflow-x:hidden;
-    display:flex;flex-direction:column;justify-content:center;
-    padding:clamp(28px,5vw,72px) clamp(24px,6vw,90px) clamp(74px,9vh,110px);
-    background:var(--paper);
+  :root[data-theme="light"]{
+    --ground:#FAF8FE; --surface:#FFFFFF; --surface-2:#F4F0FC; --ink:#1E1930; --ink-soft:#5B5474; --ink-faint:#928BA8;
+    --line:#E8E2F5; --line-strong:#D9CFF0; --brand:#6A3DE8; --brand-2:#8A63F0; --brand-d:#3B2192; --brand-tint:#EFE9FC;
+    --amber:#B8790F; --amber-tint:#FAEFD6; --amber-line:#EEDCAE; --mint:#0E9E82; --danger:#B0402A; --danger-tint:#F7E6E0;
   }
-  .slide .inner{width:100%;max-width:var(--maxw);margin:0 auto}
-  .slide::-webkit-scrollbar{width:8px}
-  .slide::-webkit-scrollbar-thumb{background:var(--violet-line);border-radius:8px}
-
-  /* ---- typography helpers ---- */
-  .eyebrow{font-family:var(--font-mono);font-size:clamp(11px,1.3vw,13.5px);letter-spacing:.18em;text-transform:uppercase;color:var(--violet);font-weight:600;display:inline-flex;align-items:center;gap:.7em;margin-bottom:18px}
-  .eyebrow::before{content:"";width:30px;height:2px;background:var(--violet);border-radius:2px}
-  h1{font-size:clamp(34px,6.2vw,72px);line-height:1.04;font-weight:800;letter-spacing:-.015em;text-wrap:balance}
-  h2{font-size:clamp(27px,4.4vw,50px);line-height:1.08;font-weight:800;letter-spacing:-.01em;text-wrap:balance;margin-bottom:8px}
-  .subhead{font-size:clamp(16px,2vw,22px);color:var(--muted);margin-top:16px;max-width:46ch}
-  .kicker-num{font-family:var(--font-mono);font-size:clamp(12px,1.4vw,15px);color:var(--faint);font-weight:600}
-
-  /* ---- cover ---- */
-  .slide.cover{
-    background:radial-gradient(120% 120% at 85% -10%,var(--violet) 0%,var(--violet-d) 45%,var(--violet-dd) 100%);
-    color:#fff;justify-content:center;position:relative;overflow:hidden;
+  :root[data-theme="dark"]{
+    --ground:#12101E; --surface:#1B1830; --surface-2:#221E3A; --ink:#ECE7F7; --ink-soft:#B3ACC9; --ink-faint:#807A97;
+    --line:#2C2748; --line-strong:#3B3560; --brand:#9B7BF2; --brand-2:#B29BF6; --brand-d:#C3B2FA; --brand-tint:#211C3A;
+    --amber:#E0B45E; --amber-tint:#251E12; --amber-line:#3d3320; --mint:#57C9AC; --danger:#E58061; --danger-tint:#2a1a15;
   }
-  .slide.cover::after{
-    content:"";position:absolute;right:-8%;bottom:-14%;width:min(58vw,640px);height:min(58vw,640px);
-    background:radial-gradient(circle,rgba(255,255,255,.10),transparent 62%);border-radius:50%;pointer-events:none;
-  }
-  .cover .brandrow{display:flex;align-items:center;gap:12px;margin-bottom:34px}
-  .cover .logo{display:flex;align-items:center;gap:9px;font-weight:800;font-size:clamp(17px,2.2vw,22px);letter-spacing:-.01em}
-  .cover .logo .bdot{width:13px;height:13px;border-radius:50%;background:#fff;box-shadow:0 0 0 5px rgba(255,255,255,.18)}
-  .cover .eyebrow{color:#D9C9FF}
-  .cover .eyebrow::before{background:#D9C9FF}
-  .cover h1{color:#fff;max-width:16ch}
-  .cover h1 .em{color:#F4CE7E}
-  .cover .by{margin-top:34px;font-size:clamp(15px,1.9vw,19px);color:#E4D8FF}
-  .cover .by b{color:#fff}
-  .cover .pills{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}
-  .cover .pill{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);padding:8px 15px;border-radius:999px;font-size:clamp(13px,1.5vw,15px);font-weight:600;backdrop-filter:blur(4px)}
 
-  /* ---- generic cards ---- */
-  .cards{display:grid;gap:clamp(14px,1.8vw,20px);margin-top:clamp(20px,3vh,34px)}
-  .cards.c2{grid-template-columns:repeat(2,1fr)}
-  .cards.c3{grid-template-columns:repeat(3,1fr)}
-  .card{background:var(--paper-2);border:1px solid var(--line);border-radius:16px;padding:clamp(18px,2.2vw,26px)}
-  .card .cico{font-size:clamp(24px,3vw,32px);display:block;margin-bottom:12px}
-  .card h3{font-size:clamp(17px,2vw,21px);font-weight:800;margin-bottom:7px;letter-spacing:-.01em}
-  .card p{color:var(--muted);font-size:clamp(14px,1.6vw,16.5px)}
-  .card.violet{background:var(--violet-l);border-color:var(--violet-line)}
-  .card .badge{display:inline-block;font-family:var(--font-mono);font-size:11.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--violet);background:#fff;border:1px solid var(--violet-line);padding:3px 9px;border-radius:7px;margin-bottom:12px}
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth;scroll-padding-top:120px;-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--font);font-size:17px;line-height:1.72;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:hidden}
+  ::selection{background:var(--brand);color:#fff}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+  .mono{font-family:var(--font-mono)}
+  .eyebrow{font-family:var(--font-mono);font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--brand);font-weight:600;display:inline-flex;align-items:center;gap:.6em}
+  .eyebrow::before{content:"";width:28px;height:2px;background:var(--brand);border-radius:2px}
 
-  /* ---- table ---- */
-  .tbl-wrap{margin-top:clamp(18px,3vh,30px);border:1px solid var(--line);border-radius:16px;overflow:hidden;overflow-x:auto}
-  table{width:100%;border-collapse:collapse;min-width:640px}
-  th,td{text-align:left;padding:clamp(13px,1.7vw,20px);vertical-align:top;font-size:clamp(13.5px,1.55vw,16.5px)}
-  thead th{background:var(--violet-d);color:#fff;font-weight:700;font-size:clamp(13px,1.5vw,16px)}
+  .topbar{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--ground) 86%,transparent);backdrop-filter:saturate(1.4) blur(12px);border-bottom:1px solid var(--line)}
+  .topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;gap:16px}
+  .brandmark{display:flex;align-items:center;gap:10px;font-weight:800;font-size:17px;white-space:nowrap;letter-spacing:-.01em}
+  .brandmark .bdot{width:11px;height:11px;border-radius:50%;background:var(--brand);box-shadow:0 0 0 4px var(--brand-tint)}
+  .brandmark .mo{color:var(--brand)}
+  .brandmark .x{color:var(--ink-faint);font-family:var(--font-mono);font-weight:400;font-size:14px}
+  .brandmark .cl{font-family:var(--font-mono);font-size:14.5px;color:var(--ink);font-weight:600}
+  .theme-btn{border:1px solid var(--line-strong);background:var(--surface);color:var(--ink-soft);width:40px;height:40px;border-radius:11px;cursor:pointer;font-size:17px;line-height:1;display:grid;place-items:center;transition:.2s}
+  .theme-btn:hover{color:var(--brand);border-color:var(--brand)}
+  .theme-btn:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+
+  /* hero */
+  .hero{position:relative;overflow:hidden;background:radial-gradient(130% 120% at 82% -18%,var(--brand-2) 0%,var(--brand) 38%,var(--brand-d) 100%);color:#fff;padding:72px 0 66px}
+  .hero::after{content:"";position:absolute;right:-6%;bottom:-24%;width:min(52vw,560px);height:min(52vw,560px);background:radial-gradient(circle,rgba(255,255,255,.10),transparent 62%);border-radius:50%;pointer-events:none}
+  .hero .wrap{position:relative;z-index:1}
+  .hero .eyebrow{color:#D9C9FF}.hero .eyebrow::before{background:#D9C9FF}
+  .hero h1{font-size:clamp(34px,6vw,64px);line-height:1.05;font-weight:800;letter-spacing:-.015em;margin:18px 0 0;text-wrap:balance;max-width:18ch}
+  .hero h1 .em{color:#F4CE7E}
+  .hero .lead{font-size:clamp(17px,2vw,21px);color:#E7DCFF;margin:22px 0 0;max-width:48ch}
+  .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}
+  .chip{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.24);padding:9px 16px;border-radius:999px;font-size:14px;font-weight:600;backdrop-filter:blur(4px)}
+
+  /* secnav */
+  .secnav{position:sticky;top:64px;z-index:40;background:color-mix(in srgb,var(--ground) 90%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .secnav .wrap{display:flex;gap:6px;overflow-x:auto;padding:11px 24px;scrollbar-width:none}
+  .secnav .wrap::-webkit-scrollbar{display:none}
+  .secnav a{flex:0 0 auto;font-size:13.5px;font-weight:600;color:var(--ink-soft);text-decoration:none;padding:7px 13px;border-radius:9px;white-space:nowrap;transition:.18s}
+  .secnav a:hover{background:var(--surface-2);color:var(--ink)}
+  .secnav a.active{background:var(--brand);color:#fff}
+
+  main{padding:14px 0 40px}
+  .stage{padding:50px 0;border-bottom:1px solid var(--line)}
+  .stage:last-of-type{border-bottom:0}
+  .stage-head{margin-bottom:28px}
+  .stage-head h2{font-size:clamp(24px,3.4vw,36px);margin:10px 0 6px;font-weight:800;letter-spacing:-.01em;text-wrap:balance}
+  .stage-head p.sub{margin:0;color:var(--ink-soft);font-size:16.5px;max-width:60ch}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:24px}
+  .card .kico{font-size:26px;display:block;margin-bottom:13px}
+  .card h3{margin:0 0 7px;font-size:18px;font-weight:800;letter-spacing:-.01em}
+  .card p{margin:0;color:var(--ink-soft);font-size:15.5px}
+  .card.violet{background:var(--brand-tint);border-color:color-mix(in srgb,var(--brand) 22%,transparent)}
+  .card .badge{display:inline-block;font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--brand);background:var(--surface);border:1px solid color-mix(in srgb,var(--brand) 30%,transparent);padding:3px 9px;border-radius:7px;margin-bottom:12px}
+
+  /* table */
+  .tbl-wrap{border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;overflow-x:auto}
+  table{width:100%;border-collapse:collapse;min-width:620px}
+  th,td{text-align:left;padding:15px 18px;vertical-align:top;font-size:15.5px}
+  thead th{background:var(--brand-d);color:#fff;font-weight:700;font-size:15px}
   tbody tr+tr{border-top:1px solid var(--line)}
-  tbody td:first-child{font-weight:800;color:var(--violet-d);white-space:nowrap}
-  tbody tr:nth-child(even){background:var(--paper-2)}
-  td .muted{color:var(--muted)}
+  tbody td:first-child{font-weight:800;color:var(--brand);white-space:nowrap}
+  tbody tr:nth-child(even){background:var(--surface-2)}
+  td .muted{color:var(--ink-soft);font-weight:500;font-size:.88em}
 
-  /* ---- result strip ---- */
-  .result{display:flex;gap:13px;align-items:center;margin-top:clamp(18px,3vh,28px);background:var(--amber-l);border:1px solid var(--amber-line);border-radius:14px;padding:15px 20px}
-  .result .ri{font-size:22px;flex:0 0 auto}
-  .result p{font-size:clamp(14.5px,1.7vw,18px);font-weight:600;color:#6b4a09}
+  /* result strip */
+  .result{display:flex;gap:13px;align-items:center;margin-top:20px;background:var(--amber-tint);border:1px solid var(--amber-line);border-radius:14px;padding:15px 20px}
+  .result .ri{font-size:21px;flex:0 0 auto}
+  .result p{margin:0;font-size:16px;font-weight:600;color:var(--ink)}
   .result b{color:var(--amber)}
 
-  /* ---- steps big ---- */
-  .bigsteps{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(12px,1.6vw,18px);margin-top:clamp(20px,3vh,32px);counter-reset:bs}
-  .bigstep{background:var(--paper-2);border:1px solid var(--line);border-radius:16px;padding:clamp(16px,2vw,24px);position:relative}
-  .bigstep::before{counter-increment:bs;content:counter(bs);font-family:var(--font-mono);font-weight:800;font-size:clamp(20px,2.6vw,30px);color:var(--violet);opacity:.5;display:block;margin-bottom:10px}
-  .bigstep h4{font-size:clamp(15px,1.7vw,18px);font-weight:800;margin-bottom:6px}
-  .bigstep p{color:var(--muted);font-size:clamp(13px,1.5vw,15px)}
+  /* steps */
+  .bigsteps{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;counter-reset:bs}
+  .bigstep{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:22px;position:relative}
+  .bigstep::before{counter-increment:bs;content:counter(bs);font-family:var(--font-mono);font-weight:800;font-size:26px;color:var(--brand);opacity:.55;display:block;margin-bottom:10px}
+  .bigstep h4{font-size:17px;font-weight:800;margin:0 0 6px}
+  .bigstep p{margin:0;color:var(--ink-soft);font-size:14.5px}
 
-  /* ---- warn list ---- */
-  .warns{display:flex;flex-direction:column;gap:14px;margin-top:clamp(20px,3vh,30px)}
-  .warn{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start;background:var(--paper-2);border:1px solid var(--line);border-left:5px solid var(--violet);border-radius:14px;padding:clamp(16px,2vw,22px)}
-  .warn .wi{font-size:clamp(22px,2.6vw,28px)}
-  .warn h4{font-size:clamp(16px,1.8vw,19px);font-weight:800;margin-bottom:4px}
-  .warn p{color:var(--muted);font-size:clamp(14px,1.6vw,16px)}
+  /* warns */
+  .warns{display:flex;flex-direction:column;gap:14px}
+  .warn{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start;background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--brand);border-radius:14px;padding:20px 22px}
+  .warn .wi{font-size:24px}
+  .warn h4{margin:0 0 4px;font-size:17px;font-weight:800}
+  .warn p{margin:0;color:var(--ink-soft);font-size:15px}
 
-  /* ---- monster case ---- */
-  .caserow{display:grid;grid-template-columns:1.2fr .8fr;gap:clamp(20px,3vw,40px);align-items:center;margin-top:clamp(18px,3vh,30px)}
-  .caserow ul{list-style:none;display:flex;flex-direction:column;gap:14px}
-  .caserow li{display:flex;gap:12px;font-size:clamp(15px,1.8vw,18.5px);line-height:1.5}
-  .caserow li .ck{flex:0 0 auto;color:var(--mint);font-weight:900;font-size:1.1em}
-  .mascot{aspect-ratio:1;border-radius:24px;background:radial-gradient(120% 120% at 30% 20%,var(--violet-2),var(--violet-d));display:grid;place-items:center;box-shadow:0 30px 60px -30px var(--violet);position:relative;overflow:hidden}
-  .mascot .face{font-size:clamp(80px,16vw,150px);filter:drop-shadow(0 8px 18px rgba(0,0,0,.25))}
-  .mascot .tagname{position:absolute;bottom:16px;font-family:var(--font-mono);font-size:13px;letter-spacing:.08em;color:rgba(255,255,255,.85);font-weight:600}
+  /* case */
+  .caserow{display:grid;grid-template-columns:1.2fr .8fr;gap:36px;align-items:center}
+  .caserow ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px}
+  .caserow li{display:flex;gap:12px;font-size:17px;line-height:1.5}
+  .caserow li .ck{flex:0 0 auto;color:var(--mint);font-weight:900}
+  .mascot{aspect-ratio:1;border-radius:24px;background:radial-gradient(120% 120% at 30% 20%,var(--brand-2),var(--brand-d));display:grid;place-items:center;box-shadow:0 30px 60px -30px var(--brand);position:relative;overflow:hidden}
+  .mascot .face{font-size:clamp(70px,13vw,130px);filter:drop-shadow(0 8px 18px rgba(0,0,0,.25))}
+  .mascot .tagname{position:absolute;bottom:16px;font-family:var(--font-mono);font-size:12.5px;letter-spacing:.08em;color:rgba(255,255,255,.85);font-weight:600}
 
-  /* ---- closing ---- */
-  .slide.closing{background:radial-gradient(120% 120% at 15% 110%,var(--violet-d) 0%,var(--violet-dd) 60%);color:#fff}
+  /* closing */
+  .closing{background:radial-gradient(120% 130% at 12% 120%,var(--brand-d) 0%,#271563 65%);color:#fff;border-radius:22px;padding:clamp(30px,5vw,54px);margin-top:8px}
   .closing .eyebrow{color:#D9C9FF}.closing .eyebrow::before{background:#D9C9FF}
-  .closing h2{color:#fff}
-  .closing .summary{font-size:clamp(17px,2.3vw,26px);line-height:1.4;max-width:24ch;margin-top:6px;font-weight:600}
+  .closing .summary{font-size:clamp(20px,3vw,32px);line-height:1.35;max-width:22ch;margin:12px 0 0;font-weight:700;letter-spacing:-.01em}
   .closing .summary b{color:#F4CE7E}
-  .contact{margin-top:clamp(24px,4vh,40px);display:flex;flex-wrap:wrap;gap:12px}
-  .contact a,.contact span{display:inline-flex;align-items:center;gap:9px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);padding:11px 18px;border-radius:12px;color:#fff;text-decoration:none;font-weight:600;font-size:clamp(14px,1.6vw,17px)}
-  .contact a:hover{background:rgba(255,255,255,.2)}
-  .qa{margin-top:26px;font-family:var(--font-mono);font-size:clamp(20px,3vw,34px);font-weight:700;letter-spacing:.05em;color:#F4CE7E}
+  .contact{margin-top:28px;display:flex;flex-wrap:wrap;gap:12px}
+  .contact a,.contact span{display:inline-flex;align-items:center;gap:9px;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.24);padding:11px 18px;border-radius:12px;color:#fff;text-decoration:none;font-weight:600;font-size:16px}
+  .contact a:hover{background:rgba(255,255,255,.22)}
 
-  /* ---- HUD ---- */
-  .hud{position:fixed;left:0;right:0;bottom:0;height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(18px,4vw,40px);pointer-events:none;z-index:30}
-  .hud .counter{font-family:var(--font-mono);font-size:13px;font-weight:600;color:var(--faint);background:rgba(255,255,255,.6);padding:5px 11px;border-radius:8px;backdrop-filter:blur(6px);pointer-events:auto}
-  .slide.cover ~ .hud .counter,.on-dark .counter{}
-  .dots{display:flex;gap:8px;pointer-events:auto}
-  .dots button{width:9px;height:9px;border-radius:50%;border:0;background:var(--violet-line);cursor:pointer;padding:0;transition:.2s}
-  .dots button.on{background:var(--violet);transform:scale(1.35)}
-  .arrows{display:flex;gap:8px;pointer-events:auto}
-  .arrows button{width:40px;height:40px;border-radius:11px;border:1px solid var(--line);background:rgba(255,255,255,.85);color:var(--violet-d);font-size:19px;cursor:pointer;display:grid;place-items:center;transition:.18s;backdrop-filter:blur(6px)}
-  .arrows button:hover{background:var(--violet);color:#fff;border-color:var(--violet)}
-  .arrows button:disabled{opacity:.35;cursor:default}
-  .hud.on-dark .counter{color:#E4D8FF;background:rgba(255,255,255,.14)}
-  .hud.on-dark .dots button{background:rgba(255,255,255,.3)}
-  .hud.on-dark .dots button.on{background:#fff}
-  .hud.on-dark .arrows button{background:rgba(255,255,255,.14);color:#fff;border-color:rgba(255,255,255,.28)}
-  .hud.on-dark .arrows button:hover{background:#fff;color:var(--violet-d)}
+  footer{background:var(--surface);border-top:1px solid var(--line);padding:38px 0 46px;margin-top:8px}
+  footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
+  footer .fmeta{font-size:14px;color:var(--ink-soft);line-height:1.8}
+  footer .fmeta a{color:var(--brand);text-decoration:none;font-weight:600}
 
-  .hint{position:fixed;top:16px;right:clamp(16px,4vw,32px);font-family:var(--font-mono);font-size:11.5px;color:var(--faint);background:rgba(255,255,255,.6);padding:5px 11px;border-radius:8px;z-index:30;transition:opacity .5s;backdrop-filter:blur(6px)}
-  .hint.hide{opacity:0}
-  .on-dark-hint{color:#E4D8FF!important;background:rgba(255,255,255,.14)!important}
+  .rev{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+  .rev.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){.rev{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--brand);outline-offset:3px;border-radius:6px}
 
-  @media (max-width:760px){
-    .cards.c2,.cards.c3{grid-template-columns:1fr}
+  @media (max-width:860px){
+    .grid2,.grid3{grid-template-columns:1fr}
     .bigsteps{grid-template-columns:1fr 1fr}
     .caserow{grid-template-columns:1fr}
-    .slide{justify-content:flex-start;padding-top:clamp(48px,8vh,72px)}
+    .hero{padding:52px 0 48px}
+    .stage{padding:40px 0}
   }
-  @media (prefers-reduced-motion:reduce){.track{transition:none}}
+  @media (max-width:520px){body{font-size:16px}.wrap{padding:0 18px}.bigsteps{grid-template-columns:1fr}}
 </style>
 
-<div class="deck" id="deck">
-  <div class="track" id="track">
-
-    <!-- 1 COVER -->
-    <section class="slide cover" data-dark>
-      <div class="inner">
-        <div class="brandrow"><span class="logo"><span class="bdot"></span>moodata</span></div>
-        <span class="eyebrow">Moodata × Claude · สำหรับลูกค้า</span>
-        <h1>ใช้ Claude ช่วยงาน<br><span class="em">บัญชี &amp; HR</span></h1>
-        <p class="by">จากประสบการณ์จริงของ <b>Moodata</b> — งานเอกสารซ้ำ ๆ ที่เคยกินเวลา ให้ AI ช่วยทำ</p>
-        <div class="pills">
-          <span class="pill">💰 บัญชี &amp; ภาษี</span>
-          <span class="pill">👥 HR &amp; Payroll</span>
-          <span class="pill">📄 เอกสาร</span>
-          <span class="pill">🤖 ระบบอัตโนมัติ</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- 2 WHAT IS CLAUDE -->
-    <section class="slide">
-      <div class="inner">
-        <span class="kicker-num">01 / 10</span>
-        <h2>Claude คืออะไร</h2>
-        <p class="subhead">AI ผู้ช่วยที่ “คุยเป็นภาษาคน” แล้วลงมือทำงานเอกสาร คำนวณ และเขียนโค้ดให้ได้จริง</p>
-        <div class="cards c3">
-          <div class="card violet"><span class="cico">💬</span><h3>สั่งเป็นภาษาไทย</h3><p>พิมพ์บอกงานที่อยากได้แบบพูดปกติ ไม่ต้องมีศัพท์เทคนิค</p></div>
-          <div class="card violet"><span class="cico">📑</span><h3>ทำเอกสาร &amp; คำนวณ</h3><p>ร่างหนังสือ จัดตาราง คิดเลข สรุปไฟล์ ออกมาเป็น Word/Excel</p></div>
-          <div class="card violet"><span class="cico">⚙️</span><h3>สร้างระบบได้</h3><p>เขียนโค้ด ทำ automation เชื่อม LINE / Google ให้ทำงานเอง</p></div>
-        </div>
-        <div class="result"><span class="ri">✨</span><p><b>ไม่ต้องเขียนโปรแกรมเป็น</b> ก็เริ่มใช้ได้ทันที — แค่พิมพ์คุย</p></div>
-      </div>
-    </section>
-
-    <!-- 3 THREE CHANNELS -->
-    <section class="slide">
-      <div class="inner">
-        <span class="kicker-num">02 / 10</span>
-        <h2>3 ช่องทางใช้งาน เลือกให้เหมาะกับงาน</h2>
-        <div class="tbl-wrap">
-          <table>
-            <thead><tr><th>ช่องทาง</th><th>เหมาะกับ</th><th>ตัวอย่างงาน</th></tr></thead>
-            <tbody>
-              <tr><td>claude.ai<br><span class="muted" style="font-weight:500;font-size:.85em">เว็บ / แอป</span></td><td>ถาม–ตอบ · ร่างเอกสาร · คำนวณเร็ว ๆ</td><td class="muted">ร่างสัญญาจ้าง · ถามเรื่องภาษี · สรุปเอกสารยาว ๆ</td></tr>
-              <tr><td>Claude Cowork</td><td>งานหลายขั้นตอน · ทำไฟล์จริง</td><td class="muted">ทำ payroll · สร้างชุดเอกสาร · วิเคราะห์ข้อมูล</td></tr>
-              <tr><td>Claude Code</td><td>ระบบอัตโนมัติ · Apps Script</td><td class="muted">สร้าง LINE Bot · ระบบลา/OT · automation</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="result"><span class="ri">🧭</span><p>เริ่มจาก <b>claude.ai</b> ก่อนก็ได้ — พองานซับซ้อนขึ้นค่อยขยับไป <b>Cowork</b> / <b>Code</b></p></div>
-      </div>
-    </section>
-
-    <!-- 4 ACCOUNTING -->
-    <section class="slide">
-      <div class="inner">
-        <span class="kicker-num">03 / 10</span>
-        <h2>💰 งานบัญชี &amp; ภาษี</h2>
-        <p class="subhead">ตัวอย่างงานที่ Moodata ทำสำเร็จมาแล้ว</p>
-        <div class="cards c2">
-          <div class="card"><span class="badge">WHT ต่างประเทศ</span><h3>ภาษีหัก ณ ที่จ่าย ต่างประเทศ</h3><p>จ่ายค่า ChatGPT / Canva / Google → บอก Claude ได้เลยว่าต้องหักกี่ % ยื่นแบบไหน (ภ.ง.ด.54 / ภ.พ.36)</p></div>
-          <div class="card"><span class="badge">50 ทวิ อัตโนมัติ</span><h3>หนังสือรับรองหัก ณ ที่จ่าย</h3><p>สร้างใบ 50 ทวิ พร้อมเลขรันนิ่ง กรอกข้อมูลครบ ออกเป็นชุดได้ทันที</p></div>
-          <div class="card"><span class="badge">ชุดเอกสารเบิกจ่าย</span><h3>เอกสารการเงินตามสรรพากร</h3><p>เงินสดย่อย · เงินทดรองจ่าย · ใบสำคัญจ่าย — ครบชุด ฟอร์แมตถูกต้อง</p></div>
-          <div class="card"><span class="badge">Bank Reconcile</span><h3>กระทบยอดธนาคาร</h3><p>OCR อ่าน statement ธนาคารไทย แล้วกระทบยอดกับรายการขายให้อัตโนมัติ</p></div>
-        </div>
-        <div class="result"><span class="ri">💡</span><p>งานที่เคยทำมือ <b>ครึ่งวัน</b> เหลือ <b>ไม่กี่นาที</b></p></div>
-      </div>
-    </section>
-
-    <!-- 5 HR -->
-    <section class="slide">
-      <div class="inner">
-        <span class="kicker-num">04 / 10</span>
-        <h2>👥 งาน HR &amp; Payroll</h2>
-        <div class="cards c2">
-          <div class="card"><span class="cico">🧾</span><h3>ระบบเงินเดือน</h3><p>คำนวณเงินเดือน + ภาษี + ประกันสังคม แล้วส่งสลิปทาง Email / LINE / PDF อัตโนมัติ</p></div>
-          <div class="card"><span class="cico">📲</span><h3>ระบบลา + OT ผ่าน LINE</h3><p>พนักงานกดลา/ขอ OT ในไลน์ · HR อนุมัติในไลน์ · คุมโควตา+คำนวณให้เสร็จ</p></div>
-          <div class="card"><span class="cico">⚖️</span><h3>เอกสารกฎหมายแรงงาน</h3><p>หนังสือเตือน · เลิกจ้าง (คำนวณค่าชดเชยตามอายุงานให้) · สัญญาจ้าง</p></div>
-          <div class="card"><span class="cico">📊</span><h3>โครงสร้างเงินเดือน</h3><p>Job Grade + กระบอกเงินเดือน + วิเคราะห์เทียบตลาด ให้จ่ายอย่างเป็นระบบ</p></div>
-        </div>
-        <div class="result"><span class="ri">💡</span><p>ลดงาน HR ซ้ำ ๆ + เอกสาร<b>ถูกต้องตามกฎหมาย</b></p></div>
-      </div>
-    </section>
-
-    <!-- 6 DOCUMENTS -->
-    <section class="slide">
-      <div class="inner">
-        <span class="kicker-num">05 / 10</span>
-        <h2>📄 เอกสาร &amp; นโยบาย</h2>
-        <div class="cards c3">
-          <div class="card violet"><span class="cico">📋</span><h3>นโยบายบริษัท</h3><p>นโยบาย PDPA · ระเบียบพนักงาน · ข้อบังคับการทำงาน</p></div>
-          <div class="card violet"><span class="cico">📘</span><h3>SOP คู่มือการทำงาน</h3><p>ขั้นตอนงานแต่ละแผนก เขียนให้อ่านเข้าใจ ใช้อบรมได้</p></div>
-          <div class="card violet"><span class="cico">🧮</span><h3>ใบเสนอราคา</h3><p>จัดฟอร์แมตสวย คำนวณ VAT/ยอดรวม พร้อมส่งลูกค้า</p></div>
-        </div>
-        <div class="result"><span class="ri">💡</span><p>ทุกไฟล์ออกเป็น <b>Word / Excel</b> ฟอนต์ไทยถูกต้อง พร้อมใช้ทันที</p></div>
-      </div>
-    </section>
-
-    <!-- 7 CASE STUDY -->
-    <section class="slide">
-      <div class="inner">
-        <span class="kicker-num">06 / 10</span>
-        <h2>🤖 Case Study: Monster Act</h2>
-        <div class="caserow">
-          <ul>
-            <li><span class="ck">✦</span><span>แพลตฟอร์ม <b>LINE OA หลายบอท</b> — HR + บัญชี + เอกสาร รวมในที่เดียว</span></li>
-            <li><span class="ck">✦</span><span>Claude ช่วย <b>ออกแบบระบบ + เขียนโค้ดทั้งหมด</b> ตั้งแต่ศูนย์</span></li>
-            <li><span class="ck">✦</span><span>เชื่อม Google Sheet + เว็บหลังบ้าน — ทีมสั่งงานผ่านแชทได้เลย</span></li>
-            <li><span class="ck">✦</span><span>ตัวอย่างจริงว่า AI สร้าง <b>ระบบทั้งระบบ</b> ให้ธุรกิจได้</span></li>
-          </ul>
-          <div class="mascot"><span class="face">🟣</span><span class="tagname">MONSTER ACT</span></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 8 HOW TO START -->
-    <section class="slide">
-      <div class="inner">
-        <span class="kicker-num">07 / 10</span>
-        <h2>เริ่มต้นใช้งานยังไง</h2>
-        <div class="bigsteps">
-          <div class="bigstep"><h4>เปิด Claude</h4><p>เข้า claude.ai หรือโหลดแอป Cowork ลงคอม</p></div>
-          <div class="bigstep"><h4>พิมพ์งานที่อยากทำ</h4><p>บอกเป็นภาษาคนปกติ ว่าอยากได้อะไร</p></div>
-          <div class="bigstep"><h4>แนบไฟล์ (ถ้ามี)</h4><p>เช่น Excel เงินเดือน · PDF statement ธนาคาร</p></div>
-          <div class="bigstep"><h4>ตรวจ → ใช้งาน</h4><p>Claude ทำให้ → เราตรวจ → นำไปใช้จริง</p></div>
-        </div>
-        <div class="result"><span class="ri">💡</span><p>เคล็ดลับ: <b>ยิ่งบอกละเอียด ผลลัพธ์ยิ่งตรง</b> — เล่าบริบทร้าน/บริษัทให้ Claude รู้</p></div>
-      </div>
-    </section>
-
-    <!-- 9 CAUTIONS -->
-    <section class="slide">
-      <div class="inner">
-        <span class="kicker-num">08 / 10</span>
-        <h2>⚠️ ข้อควรระวัง</h2>
-        <div class="warns">
-          <div class="warn"><span class="wi">✅</span><div><h4>AI เป็น “ผู้ช่วยร่าง” — คนต้องตรวจก่อนใช้เสมอ</h4><p>โดยเฉพาะตัวเลขและข้อกฎหมาย อ่านทวนก่อนนำไปใช้จริงทุกครั้ง</p></div></div>
-          <div class="warn"><span class="wi">🔒</span><div><h4>ระวังข้อมูลอ่อนไหว</h4><p>เลขบัตรประชาชน เงินเดือน เลขบัญชี — ใส่เท่าที่จำเป็น คำนึงถึง privacy</p></div></div>
-          <div class="warn"><span class="wi">✍️</span><div><h4>ผู้มีใบอนุญาตยังเป็นผู้รับผิดชอบ</h4><p>เช่น ผู้สอบบัญชี — AI ช่วยเตรียมงาน แต่คนเป็นผู้เซ็นและรับผิดชอบ</p></div></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 10 CLOSING -->
-    <section class="slide closing" data-dark>
-      <div class="inner">
-        <span class="eyebrow">สรุป</span>
-        <p class="summary">Claude คือผู้ช่วยที่ทำงานเอกสารซ้ำ ๆ แทนเรา — ให้เรามีเวลาไปทำงานที่ต้องใช้ <b>วิจารณญาณ</b></p>
-        <div class="contact">
-          <a href="mailto:phusita@moodata.me">✉️ phusita@moodata.me</a>
-          <span>💜 Moodata</span>
-        </div>
-        <div class="qa">Q &amp; A</div>
-      </div>
-    </section>
-
+<div class="topbar">
+  <div class="wrap">
+    <div class="brandmark"><span class="bdot"></span><span class="mo">moodata</span><span class="x">×</span><span class="cl">Claude</span></div>
+    <button class="theme-btn" id="themeBtn" aria-label="สลับโหมดสว่าง/มืด" title="สลับโหมด">◐</button>
   </div>
 </div>
 
-<div class="hint" id="hint">← → เลื่อนสไลด์ · หรือแตะปุ่มมุมขวาล่าง</div>
-
-<div class="hud" id="hud">
-  <span class="counter" id="counter">1 / 10</span>
-  <div class="dots" id="dots"></div>
-  <div class="arrows">
-    <button id="prev" aria-label="สไลด์ก่อนหน้า">‹</button>
-    <button id="next" aria-label="สไลด์ถัดไป">›</button>
+<header class="hero">
+  <div class="wrap">
+    <span class="eyebrow">Moodata × Claude · สำหรับลูกค้า</span>
+    <h1>ใช้ Claude ช่วยงาน <span class="em">บัญชี &amp; HR</span></h1>
+    <p class="lead">จากประสบการณ์จริงของ Moodata — งานเอกสารซ้ำ ๆ ที่เคยกินเวลาครึ่งวัน ให้ AI ช่วยทำเสร็จในไม่กี่นาที</p>
+    <div class="chips">
+      <span class="chip">💰 บัญชี &amp; ภาษี</span>
+      <span class="chip">👥 HR &amp; Payroll</span>
+      <span class="chip">📄 เอกสาร</span>
+      <span class="chip">🤖 ระบบอัตโนมัติ</span>
+    </div>
   </div>
-</div>
+</header>
+
+<nav class="secnav" id="secnav" aria-label="สารบัญ">
+  <div class="wrap">
+    <a href="#what">Claude คืออะไร</a>
+    <a href="#channels">3 ช่องทาง</a>
+    <a href="#acc">💰 บัญชี</a>
+    <a href="#hr">👥 HR</a>
+    <a href="#docs">📄 เอกสาร</a>
+    <a href="#case">🤖 Case</a>
+    <a href="#start">เริ่มต้น</a>
+    <a href="#caution">ข้อควรระวัง</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+  <section class="stage" id="what">
+    <div class="stage-head rev">
+      <span class="eyebrow">ทำความรู้จัก</span>
+      <h2>Claude คืออะไร</h2>
+      <p class="sub">AI ผู้ช่วยที่ “คุยเป็นภาษาคน” แล้วลงมือทำงานเอกสาร คำนวณ และเขียนโค้ดให้ได้จริง</p>
+    </div>
+    <div class="grid3 rev">
+      <div class="card violet"><span class="kico">💬</span><h3>สั่งเป็นภาษาไทย</h3><p>พิมพ์บอกงานที่อยากได้แบบพูดปกติ ไม่ต้องมีศัพท์เทคนิค</p></div>
+      <div class="card violet"><span class="kico">📑</span><h3>ทำเอกสาร &amp; คำนวณ</h3><p>ร่างหนังสือ จัดตาราง คิดเลข สรุปไฟล์ ออกมาเป็น Word/Excel</p></div>
+      <div class="card violet"><span class="kico">⚙️</span><h3>สร้างระบบได้</h3><p>เขียนโค้ด ทำ automation เชื่อม LINE / Google ให้ทำงานเอง</p></div>
+    </div>
+    <div class="result rev"><span class="ri">✨</span><p><b>ไม่ต้องเขียนโปรแกรมเป็น</b> ก็เริ่มใช้ได้ทันที — แค่พิมพ์คุย</p></div>
+  </section>
+
+  <section class="stage" id="channels">
+    <div class="stage-head rev">
+      <span class="eyebrow">เลือกช่องทาง</span>
+      <h2>3 ช่องทางใช้งาน เลือกให้เหมาะกับงาน</h2>
+    </div>
+    <div class="tbl-wrap rev">
+      <table>
+        <thead><tr><th>ช่องทาง</th><th>เหมาะกับ</th><th>ตัวอย่างงาน</th></tr></thead>
+        <tbody>
+          <tr><td>claude.ai <span class="muted">(เว็บ/แอป)</span></td><td>ถาม–ตอบ · ร่างเอกสาร · คำนวณเร็ว ๆ</td><td class="muted">ร่างสัญญาจ้าง · ถามเรื่องภาษี · สรุปเอกสารยาว ๆ</td></tr>
+          <tr><td>Claude Cowork</td><td>งานหลายขั้นตอน · ทำไฟล์จริง</td><td class="muted">ทำ payroll · สร้างชุดเอกสาร · วิเคราะห์ข้อมูล</td></tr>
+          <tr><td>Claude Code</td><td>ระบบอัตโนมัติ · Apps Script</td><td class="muted">สร้าง LINE Bot · ระบบลา/OT · automation</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="result rev"><span class="ri">🧭</span><p>เริ่มจาก <b>claude.ai</b> ก่อนก็ได้ — พองานซับซ้อนขึ้นค่อยขยับไป <b>Cowork</b> / <b>Code</b></p></div>
+  </section>
+
+  <section class="stage" id="acc">
+    <div class="stage-head rev">
+      <span class="eyebrow">งานบัญชี &amp; ภาษี</span>
+      <h2>💰 ตัวอย่างงานที่ Moodata ทำสำเร็จมาแล้ว</h2>
+    </div>
+    <div class="grid2 rev">
+      <div class="card"><span class="badge">WHT ต่างประเทศ</span><h3>ภาษีหัก ณ ที่จ่าย ต่างประเทศ</h3><p>จ่ายค่า ChatGPT / Canva / Google → บอก Claude ได้เลยว่าต้องหักกี่ % ยื่นแบบไหน (ภ.ง.ด.54 / ภ.พ.36)</p></div>
+      <div class="card"><span class="badge">50 ทวิ อัตโนมัติ</span><h3>หนังสือรับรองหัก ณ ที่จ่าย</h3><p>สร้างใบ 50 ทวิ พร้อมเลขรันนิ่ง กรอกข้อมูลครบ ออกเป็นชุดได้ทันที</p></div>
+      <div class="card"><span class="badge">ชุดเอกสารเบิกจ่าย</span><h3>เอกสารการเงินตามสรรพากร</h3><p>เงินสดย่อย · เงินทดรองจ่าย · ใบสำคัญจ่าย — ครบชุด ฟอร์แมตถูกต้อง</p></div>
+      <div class="card"><span class="badge">Bank Reconcile</span><h3>กระทบยอดธนาคาร</h3><p>OCR อ่าน statement ธนาคารไทย แล้วกระทบยอดกับรายการขายให้อัตโนมัติ</p></div>
+    </div>
+    <div class="result rev"><span class="ri">💡</span><p>งานที่เคยทำมือ <b>ครึ่งวัน</b> เหลือ <b>ไม่กี่นาที</b></p></div>
+  </section>
+
+  <section class="stage" id="hr">
+    <div class="stage-head rev">
+      <span class="eyebrow">งาน HR &amp; Payroll</span>
+      <h2>👥 ดูแลพนักงานได้ครบวงจร</h2>
+    </div>
+    <div class="grid2 rev">
+      <div class="card"><span class="kico">🧾</span><h3>ระบบเงินเดือน</h3><p>คำนวณเงินเดือน + ภาษี + ประกันสังคม แล้วส่งสลิปทาง Email / LINE / PDF อัตโนมัติ</p></div>
+      <div class="card"><span class="kico">📲</span><h3>ระบบลา + OT ผ่าน LINE</h3><p>พนักงานกดลา/ขอ OT ในไลน์ · HR อนุมัติในไลน์ · คุมโควตา + คำนวณให้เสร็จ</p></div>
+      <div class="card"><span class="kico">⚖️</span><h3>เอกสารกฎหมายแรงงาน</h3><p>หนังสือเตือน · เลิกจ้าง (คำนวณค่าชดเชยตามอายุงานให้) · สัญญาจ้าง</p></div>
+      <div class="card"><span class="kico">📊</span><h3>โครงสร้างเงินเดือน</h3><p>Job Grade + กระบอกเงินเดือน + วิเคราะห์เทียบตลาด ให้จ่ายอย่างเป็นระบบ</p></div>
+    </div>
+    <div class="result rev"><span class="ri">💡</span><p>ลดงาน HR ซ้ำ ๆ + เอกสาร<b>ถูกต้องตามกฎหมาย</b></p></div>
+  </section>
+
+  <section class="stage" id="docs">
+    <div class="stage-head rev">
+      <span class="eyebrow">เอกสาร &amp; นโยบาย</span>
+      <h2>📄 เอกสารองค์กร พร้อมใช้</h2>
+    </div>
+    <div class="grid3 rev">
+      <div class="card violet"><span class="kico">📋</span><h3>นโยบายบริษัท</h3><p>นโยบาย PDPA · ระเบียบพนักงาน · ข้อบังคับการทำงาน</p></div>
+      <div class="card violet"><span class="kico">📘</span><h3>SOP คู่มือการทำงาน</h3><p>ขั้นตอนงานแต่ละแผนก เขียนให้อ่านเข้าใจ ใช้อบรมได้</p></div>
+      <div class="card violet"><span class="kico">🧮</span><h3>ใบเสนอราคา</h3><p>จัดฟอร์แมตสวย คำนวณ VAT/ยอดรวม พร้อมส่งลูกค้า</p></div>
+    </div>
+    <div class="result rev"><span class="ri">💡</span><p>ทุกไฟล์ออกเป็น <b>Word / Excel</b> ฟอนต์ไทยถูกต้อง พร้อมใช้ทันที</p></div>
+  </section>
+
+  <section class="stage" id="case">
+    <div class="stage-head rev">
+      <span class="eyebrow">Case Study เด่น</span>
+      <h2>🤖 Monster Act</h2>
+    </div>
+    <div class="caserow rev">
+      <ul>
+        <li><span class="ck">✦</span><span>แพลตฟอร์ม <b>LINE OA หลายบอท</b> — HR + บัญชี + เอกสาร รวมในที่เดียว</span></li>
+        <li><span class="ck">✦</span><span>Claude ช่วย <b>ออกแบบระบบ + เขียนโค้ดทั้งหมด</b> ตั้งแต่ศูนย์</span></li>
+        <li><span class="ck">✦</span><span>เชื่อม Google Sheet + เว็บหลังบ้าน — ทีมสั่งงานผ่านแชทได้เลย</span></li>
+        <li><span class="ck">✦</span><span>ตัวอย่างจริงว่า AI สร้าง <b>ระบบทั้งระบบ</b> ให้ธุรกิจได้</span></li>
+      </ul>
+      <div class="mascot"><span class="face">🟣</span><span class="tagname">MONSTER ACT</span></div>
+    </div>
+  </section>
+
+  <section class="stage" id="start">
+    <div class="stage-head rev">
+      <span class="eyebrow">เริ่มต้นใช้งาน</span>
+      <h2>เริ่มต้นยังไง — 4 ขั้นง่าย ๆ</h2>
+    </div>
+    <div class="bigsteps rev">
+      <div class="bigstep"><h4>เปิด Claude</h4><p>เข้า claude.ai หรือโหลดแอป Cowork ลงคอม</p></div>
+      <div class="bigstep"><h4>พิมพ์งานที่อยากทำ</h4><p>บอกเป็นภาษาคนปกติ ว่าอยากได้อะไร</p></div>
+      <div class="bigstep"><h4>แนบไฟล์ (ถ้ามี)</h4><p>เช่น Excel เงินเดือน · PDF statement ธนาคาร</p></div>
+      <div class="bigstep"><h4>ตรวจ → ใช้งาน</h4><p>Claude ทำให้ → เราตรวจ → นำไปใช้จริง</p></div>
+    </div>
+    <div class="result rev"><span class="ri">💡</span><p>เคล็ดลับ: <b>ยิ่งบอกละเอียด ผลลัพธ์ยิ่งตรง</b> — เล่าบริบทร้าน/บริษัทให้ Claude รู้</p></div>
+  </section>
+
+  <section class="stage" id="caution">
+    <div class="stage-head rev">
+      <span class="eyebrow">ข้อควรระวัง</span>
+      <h2>⚠️ ใช้ให้ปลอดภัยและน่าเชื่อถือ</h2>
+    </div>
+    <div class="warns rev">
+      <div class="warn"><span class="wi">✅</span><div><h4>AI เป็น “ผู้ช่วยร่าง” — คนต้องตรวจก่อนใช้เสมอ</h4><p>โดยเฉพาะตัวเลขและข้อกฎหมาย อ่านทวนก่อนนำไปใช้จริงทุกครั้ง</p></div></div>
+      <div class="warn"><span class="wi">🔒</span><div><h4>ระวังข้อมูลอ่อนไหว</h4><p>เลขบัตรประชาชน เงินเดือน เลขบัญชี — ใส่เท่าที่จำเป็น คำนึงถึง privacy</p></div></div>
+      <div class="warn"><span class="wi">✍️</span><div><h4>ผู้มีใบอนุญาตยังเป็นผู้รับผิดชอบ</h4><p>เช่น ผู้สอบบัญชี — AI ช่วยเตรียมงาน แต่คนเป็นผู้เซ็นและรับผิดชอบ</p></div></div>
+    </div>
+
+    <div class="closing rev">
+      <span class="eyebrow">สรุป</span>
+      <p class="summary">Claude คือผู้ช่วยที่ทำงานเอกสารซ้ำ ๆ แทนเรา — ให้เรามีเวลาไปทำงานที่ต้องใช้ <b>วิจารณญาณ</b></p>
+      <div class="contact">
+        <a href="mailto:phusita@moodata.me">✉️ phusita@moodata.me</a>
+        <span>💜 Moodata</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="brandmark"><span class="bdot"></span><span class="mo">moodata</span></div>
+    <div class="fmeta">ใช้ Claude ช่วยงานบัญชี &amp; HR · ติดต่อ <a href="mailto:phusita@moodata.me">phusita@moodata.me</a></div>
+  </div>
+</footer>
 
 <script>
 (function(){
   "use strict";
-  var track=document.getElementById('track');
-  var slides=Array.prototype.slice.call(track.children);
-  var N=slides.length, i=0;
-  var counter=document.getElementById('counter');
-  var prev=document.getElementById('prev'), next=document.getElementById('next');
-  var hud=document.getElementById('hud'), hint=document.getElementById('hint');
-  var dotsWrap=document.getElementById('dots');
+  var root=document.documentElement, btn=document.getElementById('themeBtn');
+  function cur(){var a=root.getAttribute('data-theme');if(a)return a;return window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}
+  try{var s=localStorage.getItem('moo-theme');if(s)root.setAttribute('data-theme',s);}catch(e){}
+  function sync(){btn.textContent=cur()==='dark'?'☀':'☾';}
+  sync();
+  btn.addEventListener('click',function(){var n=cur()==='dark'?'light':'dark';root.setAttribute('data-theme',n);try{localStorage.setItem('moo-theme',n);}catch(e){}sync();});
 
-  var dots=slides.map(function(s,n){
-    var b=document.createElement('button');
-    b.setAttribute('aria-label','ไปสไลด์ '+(n+1));
-    b.addEventListener('click',function(){go(n);});
-    dotsWrap.appendChild(b); return b;
-  });
+  var revs=document.querySelectorAll('.rev');
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(en){en.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.1,rootMargin:'0px 0px -6% 0px'});
+    revs.forEach(function(r){io.observe(r);});
+  }else{revs.forEach(function(r){r.classList.add('in');});}
 
-  function render(){
-    track.style.transform='translateX('+(-i*100)+'%)';
-    counter.textContent=(i+1)+' / '+N;
-    dots.forEach(function(d,n){d.classList.toggle('on',n===i);});
-    prev.disabled=(i===0); next.disabled=(i===N-1);
-    var dark=slides[i].hasAttribute('data-dark');
-    hud.classList.toggle('on-dark',dark);
-    hint.classList.toggle('on-dark-hint',dark);
-    slides[i].scrollTop=0;
+  var links=Array.prototype.slice.call(document.querySelectorAll('.secnav a'));
+  var secs=links.map(function(l){return document.querySelector(l.getAttribute('href'));});
+  if('IntersectionObserver' in window){
+    var spy=new IntersectionObserver(function(en){en.forEach(function(e){if(e.isIntersecting){var id='#'+e.target.id;links.forEach(function(l){l.classList.toggle('active',l.getAttribute('href')===id);});var al=links.filter(function(l){return l.getAttribute('href')===id;})[0];if(al&&al.scrollIntoView){al.scrollIntoView({block:'nearest',inline:'center'});}}});},{rootMargin:'-40% 0px -55% 0px'});
+    secs.forEach(function(s){if(s)spy.observe(s);});
   }
-  function go(n){ i=Math.max(0,Math.min(N-1,n)); render(); }
-
-  prev.addEventListener('click',function(){go(i-1);});
-  next.addEventListener('click',function(){go(i+1);});
-
-  document.addEventListener('keydown',function(e){
-    if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){e.preventDefault();go(i+1);}
-    else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(i-1);}
-    else if(e.key==='Home'){go(0);}
-    else if(e.key==='End'){go(N-1);}
-  });
-
-  // hide hint after a moment
-  setTimeout(function(){hint.classList.add('hide');},4200);
-
-  // touch swipe
-  var x0=null,y0=null;
-  track.addEventListener('touchstart',function(e){x0=e.touches[0].clientX;y0=e.touches[0].clientY;},{passive:true});
-  track.addEventListener('touchend',function(e){
-    if(x0===null)return;
-    var dx=e.changedTouches[0].clientX-x0, dy=e.changedTouches[0].clientY-y0;
-    if(Math.abs(dx)>55 && Math.abs(dx)>Math.abs(dy)){ go(dx<0?i+1:i-1); }
-    x0=y0=null;
-  },{passive:true});
-
-  render();
 })();
 </script>
